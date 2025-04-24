@@ -65,6 +65,17 @@ static HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval
 
 		dh->d3d11Render.oWndProc = (WNDPROC)SetWindowLongPtr(sd.OutputWindow, GWLP_WNDPROC, (LONG_PTR)hkWndProc);
 
+		D3D11_TEXTURE2D_DESC desc = {};
+		pBackBuffer->GetDesc(&desc);
+
+		desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+		desc.MiscFlags = 0;
+
+		dh->d3d11Render.pDevice->CreateTexture2D(&desc, nullptr, &dh->state.copyTexture);
+		dh->d3d11Render.pDevice->CreateShaderResourceView(dh->state.copyTexture, nullptr, &dh->state.srv);
+
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
@@ -100,6 +111,14 @@ static HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval
 
 		dh->d3d11Render.outputWindow = sd.OutputWindow;
 		dh->d3d11Render.presentReady = true;
+	}
+
+	if (dh->state.copyTexture) {
+		ID3D11Texture2D* pBackBuffer = nullptr;
+		CHECK_HRES(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
+		if (pBackBuffer == 0) return dh->d3d11Render.oPresent(pSwapChain, SyncInterval, Flags);
+		dh->d3d11Render.pContext->CopyResource(dh->state.copyTexture, pBackBuffer);
+		pBackBuffer->Release();
 	}
 
 	ImGui_ImplDX11_NewFrame();

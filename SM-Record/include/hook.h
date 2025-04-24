@@ -42,7 +42,7 @@ struct LoopConfig {
 	/// (this is not synchronized with the game loop)
 	/// (this is not synchronized with our/the games render loop)
 	/// </summary>
-	int updateInterval = 1; // 1ms
+	int updateInterval = 0; // 0ms
 
 	/// <summary>
 	/// Shutdown once the loop is broken

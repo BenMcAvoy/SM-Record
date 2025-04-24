@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "directxtex",
     "fmt",
     {
       "name": "imgui",
@@ -9,6 +10,12 @@
         "win32-binding"
       ]
     },
-    "minhook"
+    "minhook",
+    {
+      "name": "directxtext",
+      "features": [
+        "dx11"
+      ]
+    }
   ]
 }
