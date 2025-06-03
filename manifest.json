@@ -8,5 +8,5 @@
     "BenMcAvoy"
   ],
 
-  "description": "No description yet, needs to be filled in"
+  "description": "High-performance screen recording mod for Scrap Mechanic. Captures gameplay frames directly from DirectX 11 render pipeline and saves them as PNG images with zero performance impact."
 }
