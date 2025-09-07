@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "directxtex",
     "fmt",
     {
       "name": "imgui",
@@ -12,7 +11,7 @@
     },
     "minhook",
     {
-      "name": "directxtext",
+      "name": "directxtex",
       "features": [
         "dx11"
       ]
